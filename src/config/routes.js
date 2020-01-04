@@ -1,27 +1,40 @@
 /**icon**/
-import DashboardIcon from "@material-ui/icons/Dashboard";
+import Dashboard from "@material-ui/icons/Dashboard";
+import Unarchive from "@material-ui/icons/Unarchive";
 /**page**/
 import Index from "../views/index.js";
-import Dashboard from "../views/dashboard/dashboard.js";
+import User from "../views/user/user.js";
+import Product from "../views/product/product.js";
+import Setting from "../views/setting/setting.js";
 
 const dashboardRoutes = [
   {
-    path: "/admin",
+    path: "/index",
     name: "index",
     icon: Dashboard,
-    component: Index
+    component: Index,
+    layout: "/admin"
   },
   {
-    path: "/dashboard",
-    name: "dashboard",
-    icon: DashboardIcon,
-    child:[
-      {
-        path: "/dashboard/dashboard",
-        name: "dashboard",
-        component: Dashboard
-      },
-    ]
+    path: "/user",
+    name: "User",
+    icon: 'U',
+    component: User,
+    layout: "/admin"
+  },
+  {
+    path: "/product",
+    name: "product",
+    icon: "P",
+    component: Product,
+    layout: "/admin"
+  },
+  {
+    path: "/setting",
+    name: "setting",
+    icon: Unarchive,
+    component: Setting,
+    layout: "/admin"
   }
 ];
 

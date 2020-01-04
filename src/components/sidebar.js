@@ -1,101 +1,146 @@
-import React from 'react';
+import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { makeStyles } from "@material-ui/core/styles";
-import styles from "../assets/jss/sidebarStyle.js";
-
 import { NavLink } from "react-router-dom";
 
-import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import SendIcon from '@material-ui/icons/Send';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+// @material-ui/core components
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Icon from "@material-ui/core/Icon";
+
+import styles from "../assets/sidebar.js";
 
 const useStyles = makeStyles(styles);
 
-export default function Sidebar(props){
+export default function Sidebar(props) {
   const classes = useStyles();
-  const { routes, color } = props;
-  const [open, setOpen] = React.useState(false);
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  // verifies if routeName is the one active (in browser input)
   function activeRoute(routeName) {
     return window.location.href.indexOf(routeName) > -1 ? true : false;
   }
-  return (
-    <div className={classes.sidebar}>
-      <div className={classes.logo}></div>
-      { routes.map((route,key) => {
-          var activePro = " ";
-          var listItemClasses;
-          listItemClasses = classNames({
-            [" " + classes[color]]: activeRoute(route.path)
-          });
-          const whiteFontClasses = classNames({
-            [" " + classes.whiteFont]: activeRoute(route.path)
-          });
-          if(route.child && route.child.length > 0){
-            return (
-              <div key={key}>
-                <ListItem button onClick={handleClick}>
-                  <ListItemIcon className={classes.icon}>
-                    <InboxIcon/>
-                  </ListItemIcon>
-                  <ListItemText primary={route.name} />
-                  {open ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                  { route.child.map((r,i) => {
-                    return (
-                      <NavLink 
-                      to={r.path}
-                      className={activePro + classes.item}
-                      activeClassName="active"
-                      key={'son_' + key + "_" + i}>
-                        <ListItem button className={classes.sonnav}>
-                          <ListItemText primary={r.name} />
-                        </ListItem>
-                      </NavLink>
-                      // <List component="div" disablePadding>
-                      //   <ListItem button className={classes.sonnav}>
-                      //     <ListItemText primary={r.name} />
-                      //   </ListItem>
-                      // </List>
-                    )
-                  }) }
-                </Collapse>
-              </div>
-            )
-          }else{
-            return (
-              <NavLink 
-                to={route.path}
-                className={activePro + classes.listItemClasses}
-                activeClassName="active"
-                key={key}>
-                <ListItem button>
-                  <ListItemIcon className={classes.icon}>
-                    <SendIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={route.name} />
-                </ListItem>
-              </NavLink>
-            )
-          }
-        }) }
+  const { color, logo, image, logoText, routes } = props;
+  var links = (
+    <List className={classes.list}>
+      {routes.map((prop, key) => {
+        var activePro = " ";
+        var listItemClasses;
+        listItemClasses = classNames({
+          [" " + classes[color]]: activeRoute(prop.layout + prop.path)
+        });
+        const whiteFontClasses = classNames({
+          [" " + classes.whiteFont]: activeRoute(prop.layout + prop.path)
+        });
+        return (
+          <NavLink
+            to={prop.layout + prop.path}
+            className={activePro + classes.item}
+            activeClassName="active"
+            key={key}
+          >
+            <ListItem button className={classes.itemLink + listItemClasses}>
+              {typeof prop.icon === "string" ? (
+                <Icon
+                  className={classNames(classes.itemIcon, whiteFontClasses, {
+                    [classes.itemIconRTL]: props.rtlActive
+                  })}
+                >
+                  {prop.icon}
+                </Icon>
+              ) : (
+                <prop.icon
+                  className={classNames(classes.itemIcon, whiteFontClasses, {
+                    [classes.itemIconRTL]: props.rtlActive
+                  })}
+                />
+              )}
+              <ListItemText
+                primary={props.rtlActive ? prop.rtlName : prop.name}
+                className={classNames(classes.itemText, whiteFontClasses, {
+                  [classes.itemTextRTL]: props.rtlActive
+                })}
+                disableTypography={true}
+              />
+            </ListItem>
+          </NavLink>
+        );
+      })}
+    </List>
+  );
+  var brand = (
+    <div className={classes.logo}>
+      <a
+        href="https://www.creative-tim.com?ref=mdr-sidebar"
+        className={classNames(classes.logoLink, {
+          [classes.logoLinkRTL]: props.rtlActive
+        })}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div className={classes.logoImage}>
+          <img src={logo} alt="logo" className={classes.img} />
+        </div>
+        {logoText}
+      </a>
     </div>
-  )
+  );
+  return (
+    <div>
+      <Hidden mdUp implementation="css">
+        <Drawer
+          variant="temporary"
+          anchor={props.rtlActive ? "left" : "right"}
+          open={props.open}
+          classes={{
+            paper: classNames(classes.drawerPaper, {
+              [classes.drawerPaperRTL]: props.rtlActive
+            })
+          }}
+          onClose={props.handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true // Better open performance on mobile.
+          }}
+        >
+          {brand}
+          <div className={classes.sidebarWrapper}>
+            {links}
+          </div>
+          {image !== undefined ? (
+            <div
+              className={classes.background}
+              style={{ backgroundImage: "url(" + image + ")" }}
+            />
+          ) : null}
+        </Drawer>
+      </Hidden>
+      <Hidden smDown implementation="css">
+        <Drawer
+          anchor={"left"}
+          variant="permanent"
+          open
+          classes={{ paper: classNames(classes.drawerPaper) }}
+        >
+          {brand}
+          <div className={classes.sidebarWrapper}>{links}</div>
+          {image !== undefined ? (
+            <div
+              className={classes.background}
+              style={{ backgroundImage: "url(" + image + ")" }}
+            />
+          ) : null}
+        </Drawer>
+      </Hidden>
+    </div>
+  );
 }
 
 Sidebar.propTypes = {
+  rtlActive: PropTypes.bool,
   handleDrawerToggle: PropTypes.func,
-  bgColor: PropTypes.string,
+  bgColor: PropTypes.oneOf(["purple", "blue", "green", "orange", "red"]),
   logo: PropTypes.string,
   image: PropTypes.string,
   logoText: PropTypes.string,
