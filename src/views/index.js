@@ -1,12 +1,9 @@
 import React from "react";
-import Button from "../components/button.js";
 import Table from "../components/table.js";
 
 export default function Index() {
   return (
     <div>
-      Index
-      <Button type="button" color="primary">Primary</Button>
       <Table
         tableHeaderColor="primary"
         tableHead={['Name','Country','City','Salary']}

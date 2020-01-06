@@ -38,7 +38,7 @@ export default function Layout({ ...rest }) {
   if(window.sessionStorage.getItem('token')){
     return (
       <div className={classes.wrapper}>
-        <Header />
+        <Header handleDrawerToggle={handleDrawerToggle}/>
         <div className={classes.content}>
           <Sidebar
             routes={routes}

@@ -10,7 +10,7 @@ import Setting from "../views/setting/setting.js";
 const dashboardRoutes = [
   {
     path: "/index",
-    name: "index",
+    name: "控制台",
     icon: Dashboard,
     component: Index,
     layout: "/admin"

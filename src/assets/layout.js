@@ -1,7 +1,7 @@
 import {
   drawerWidth,
   transition,
-  container
+  // container
 } from "./material-react.js";
 
 const appStyle = theme => ({
@@ -23,11 +23,18 @@ const appStyle = theme => ({
     overflowScrolling: "touch"
   },
   content: {
-    // marginTop: "60px",
     padding: "90px 15px 30px 15px",
     minHeight: "calc(100vh - 120px)"
   },
-  container,
+  container:{
+    [theme.breakpoints.up("md")]: {
+      marginLeft: `265px`
+    },
+    paddingRight: "15px",
+    paddingLeft: "15px",
+    marginRight: "auto",
+    marginLeft: "auto"
+  },
   map: {
     marginTop: "70px"
   }

@@ -6,14 +6,19 @@ import Layout from "./layout/layout.js";
 import Login from "./views/login.js";
 import './assets/css/app.css';
 
+import { Provider } from 'react-redux';
+import store from './store/index.js';
+
 const hist = createBrowserHistory();
 
 ReactDOM.render(
-  <Router history={hist}>
-    <Switch>
-      <Route path="/admin" component={Layout} />
-      <Route path="/login" component={Login} />
-      <Redirect from="/" to="/admin" />
-    </Switch>
-  </Router>, document.getElementById('root'))
+  <Provider store = {store}>
+    <Router history={hist}>
+      <Switch>
+        <Route path="/admin" component={Layout} />
+        <Route path="/login" component={Login} />
+        <Redirect from="/" to="/admin" />
+      </Switch>
+    </Router>
+  </Provider>, document.getElementById('root'))
 

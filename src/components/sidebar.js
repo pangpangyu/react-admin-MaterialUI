@@ -72,14 +72,7 @@ export default function Sidebar(props) {
   );
   var brand = (
     <div className={classes.logo}>
-      <a
-        href="https://www.creative-tim.com?ref=mdr-sidebar"
-        className={classNames(classes.logoLink, {
-          [classes.logoLinkRTL]: props.rtlActive
-        })}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href="/" className={classes.logoLink} rel="noopener noreferrer">
         <div className={classes.logoImage}>
           <img src={logo} alt="logo" className={classes.img} />
         </div>
@@ -89,16 +82,11 @@ export default function Sidebar(props) {
   );
   return (
     <div>
-      <Hidden mdUp implementation="css">
+      <Hidden implementation="css">
         <Drawer
           variant="temporary"
-          anchor={props.rtlActive ? "left" : "right"}
           open={props.open}
-          classes={{
-            paper: classNames(classes.drawerPaper, {
-              [classes.drawerPaperRTL]: props.rtlActive
-            })
-          }}
+          anchor={"left"}
           onClose={props.handleDrawerToggle}
           ModalProps={{
             keepMounted: true // Better open performance on mobile.
