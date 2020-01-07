@@ -2,19 +2,11 @@ import React from "react";
 import { connect } from 'react-redux';
 import { setTestTxt } from '../../store/actions.js'
 import Button from '../../components/button.js';
-// function User(props) {
-//   console.log(props)
-//   let { setTestTxt } = props
-//   setTestTxt('222222222222')
-//   let { test } = props
-//   return (
-//     <div>User {test}</div>
-//   );
-// }
 
 class User extends React.Component{
   constructor(props){
     super(props)
+    this.state = {}
   }
   componentDidMount(){
     let { setTestTxt } = this.props
